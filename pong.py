@@ -22,6 +22,7 @@ class Pong:
     def run_game(self):
         while True:
             self._check_events()
+            self.paddle.update()
             self._update_screen()
 
     def _check_events(self):
@@ -29,6 +30,22 @@ class Pong:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                self._check_keydown_events(event)
+            elif event.type == pygame.KEYUP:
+                self._check_keyup_events(event)
+
+    def _check_keydown_events(self, event):
+        if event.key == pygame.K_w:
+            self.paddle.moving_up = True
+        elif event.key == pygame.K_s:
+            self.paddle.moving_down = True
+
+    def _check_keyup_events(self, event):
+        if event.key == pygame.K_w:
+            self.paddle.moving_up = False
+        elif event.key == pygame.K_s:
+            self.paddle.moving_down = False
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
