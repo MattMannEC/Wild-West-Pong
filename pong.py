@@ -17,12 +17,14 @@ class Pong:
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Pong")
 
-        self.paddle = Paddle(self)
+        self.left_paddle = Paddle(self, 'left')
+        self.right_paddle = Paddle(self, 'right')
 
     def run_game(self):
         while True:
             self._check_events()
-            self.paddle.update()
+            self.left_paddle.update()
+            self.right_paddle.update()
             self._update_screen()
 
     def _check_events(self):
@@ -36,20 +38,36 @@ class Pong:
                 self._check_keyup_events(event)
 
     def _check_keydown_events(self, event):
+        # left_paddle keydown events
         if event.key == pygame.K_w:
-            self.paddle.moving_up = True
+            self.left_paddle.moving_up = True
         elif event.key == pygame.K_s:
-            self.paddle.moving_down = True
+            self.left_paddle.moving_down = True
+        # right_paddle keydown events
+        elif event.key == pygame.K_i:
+            self.right_paddle.moving_up = True
+        elif event.key == pygame.K_k:
+            self.right_paddle.moving_down = True
+        # System keydown events
+        elif event.key == pygame.K_ESCAPE:
+            sys.exit()
 
     def _check_keyup_events(self, event):
+        # left_paddle keyup events
         if event.key == pygame.K_w:
-            self.paddle.moving_up = False
+            self.left_paddle.moving_up = False
         elif event.key == pygame.K_s:
-            self.paddle.moving_down = False
+            self.left_paddle.moving_down = False
+        # left_paddle keyup events
+        elif event.key == pygame.K_i:
+            self.right_paddle.moving_up = False
+        elif event.key == pygame.K_k:
+            self.right_paddle.moving_down = False
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
-        self.paddle.draw_paddle()
+        self.left_paddle.draw_paddle()
+        self.right_paddle.draw_paddle()
         pygame.display.flip()
 
 if __name__ == '__main__':

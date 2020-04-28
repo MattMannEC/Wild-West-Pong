@@ -3,20 +3,28 @@ import settings
 
 class Paddle:
 
-    def __init__(self, pong_game):
+    def __init__(self, pong_game, position):
 
         self.screen = pong_game.screen
         self.screen_rect = pong_game.screen.get_rect()
         self.settings = pong_game.settings
-
         self.rect = pygame.Rect(0, 0, self.settings.paddle_width, self.settings.paddle_height)
-        self.rect.midleft = self.screen_rect.midleft
+        self.position = position
+        self.set_start_position()
 
         # Store a decimal value for the paddle's vertical position.
         self.y = float(self.rect.y)
 
         self.moving_up = False
         self.moving_down = False
+
+    def set_start_position(self):
+        if self.position == 'left':
+            self.rect.midleft = self.screen_rect.midleft
+        if self.position == 'right':
+            self.rect.midright = self.screen_rect.midright
+
+
     
     def update(self):
         if self.moving_up and self.rect.top > 0:
