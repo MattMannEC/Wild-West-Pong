@@ -25,10 +25,17 @@ class Pong:
 
         self.screen_rect = self.screen.get_rect()
 
+        sprites = pygame.sprite.Group()
+        sprites.add(self.left_paddle)
+        sprites.add(self.right_paddle)
+        sprites.add(self.ball)
+        print(sprites)
+
     def run_game(self):
         while True:
             self._check_events()
             self._check_ball_bounce()
+            self._check_paddle_ball_collision()
             self.left_paddle.update()
             self.right_paddle.update()
             self.ball.update()
@@ -83,6 +90,10 @@ class Pong:
         #     self.ball.x_velocity *= -1
         # if self.ball.rect.x <= self.screen_rect.left:
         #     self.ball.x_velocity *= -1
+
+    def _check_paddle_ball_collision(self):
+        if pygame.sprite.collide_rect(self.ball, self.left_paddle) or pygame.sprite.collide_rect(self.ball, self.right_paddle):
+            self.ball.bounce()
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)

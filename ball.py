@@ -30,4 +30,6 @@ class Ball(Sprite):
 
     def draw_ball(self):
         pygame.draw.rect(self.screen, self.settings.ball_color, self.rect)
-        
+
+    def bounce(self):
+        self.x_velocity *= -1
