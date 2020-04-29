@@ -72,11 +72,17 @@ class Pong:
             self.right_paddle.moving_down = False
 
     def _check_ball_bounce(self):
+        # Bounces on the top or bottom of the surface
         if self.ball.rect.y >= self.screen_rect.bottom:
             self.ball.y_velocity *= -1
-
         if self.ball.rect.y <= self.screen_rect.top:
             self.ball.y_velocity *= -1
+
+        # # Bounces on the left or right of the surface
+        # if self.ball.rect.x >= self.screen_rect.right:
+        #     self.ball.x_velocity *= -1
+        # if self.ball.rect.x <= self.screen_rect.left:
+        #     self.ball.x_velocity *= -1
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)

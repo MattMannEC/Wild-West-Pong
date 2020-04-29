@@ -1,10 +1,11 @@
 import pygame
 import settings
+from pygame.sprite import Sprite
 
-class Paddle:
+class Paddle(Sprite):
 
     def __init__(self, pong_game, position):
-
+        super().__init__()
         self.screen = pong_game.screen
         self.screen_rect = pong_game.screen.get_rect()
         self.settings = pong_game.settings
