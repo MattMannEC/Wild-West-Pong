@@ -3,6 +3,7 @@ import sys
 import pygame
 from settings import Settings
 from paddle import Paddle
+from ball import Ball
 
 class Pong:
 
@@ -20,11 +21,17 @@ class Pong:
         self.left_paddle = Paddle(self, 'left')
         self.right_paddle = Paddle(self, 'right')
 
+        self.ball = Ball(self)
+
+        self.screen_rect = self.screen.get_rect()
+
     def run_game(self):
         while True:
             self._check_events()
+            # self._check_ball_bounce()
             self.left_paddle.update()
             self.right_paddle.update()
+            self.ball.update()
             self._update_screen()
 
     def _check_events(self):
@@ -64,10 +71,18 @@ class Pong:
         elif event.key == pygame.K_k:
             self.right_paddle.moving_down = False
 
+    # def _check_ball_bounce(self):
+    #     if self.ball.rect.y >= self.screen_rect.bottom:
+    #         self.ball.y_velocity = -self.ball.y_velocity
+
+    #     if self.ball.rect.y <= self.screen_rect.top:
+    #         self.ball.y_velocity = -self.ball.y_velocity
+
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
         self.left_paddle.draw_paddle()
         self.right_paddle.draw_paddle()
+        self.ball.draw_ball()
         pygame.display.flip()
 
 if __name__ == '__main__':
