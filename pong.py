@@ -85,15 +85,11 @@ class Pong:
         if self.ball.rect.y <= self.screen_rect.top:
             self.ball.y_velocity *= -1
 
-        # # Bounces on the left or right of the surface
-        # if self.ball.rect.x >= self.screen_rect.right:
-        #     self.ball.x_velocity *= -1
-        # if self.ball.rect.x <= self.screen_rect.left:
-        #     self.ball.x_velocity *= -1
-
     def _check_paddle_ball_collision(self):
         if pygame.sprite.collide_rect(self.ball, self.left_paddle) or pygame.sprite.collide_rect(self.ball, self.right_paddle):
-            self.ball.bounce()
+            self.ball.x_velocity *= -1
+
+    # def _bounce_ball_y_axis(self):
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
