@@ -28,7 +28,7 @@ class Pong:
     def run_game(self):
         while True:
             self._check_events()
-            # self._check_ball_bounce()
+            self._check_ball_bounce()
             self.left_paddle.update()
             self.right_paddle.update()
             self.ball.update()
@@ -71,12 +71,12 @@ class Pong:
         elif event.key == pygame.K_k:
             self.right_paddle.moving_down = False
 
-    # def _check_ball_bounce(self):
-    #     if self.ball.rect.y >= self.screen_rect.bottom:
-    #         self.ball.y_velocity = -self.ball.y_velocity
+    def _check_ball_bounce(self):
+        if self.ball.rect.y >= self.screen_rect.bottom:
+            self.ball.y_velocity *= -1
 
-    #     if self.ball.rect.y <= self.screen_rect.top:
-    #         self.ball.y_velocity = -self.ball.y_velocity
+        if self.ball.rect.y <= self.screen_rect.top:
+            self.ball.y_velocity *= -1
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
