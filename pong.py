@@ -1,5 +1,4 @@
 import sys
-
 import pygame
 from settings import Settings
 from paddle import Paddle
@@ -16,6 +15,7 @@ class Pong:
         # Save the width and height of the main surface to the settings class.
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
+    
         pygame.display.set_caption("Pong")
 
         self.left_paddle = Paddle(self, 'left')
@@ -29,7 +29,6 @@ class Pong:
         sprites.add(self.left_paddle)
         sprites.add(self.right_paddle)
         sprites.add(self.ball)
-        print(sprites)
 
     def run_game(self):
         while True:
@@ -89,13 +88,11 @@ class Pong:
         if pygame.sprite.collide_rect(self.ball, self.left_paddle) or pygame.sprite.collide_rect(self.ball, self.right_paddle):
             self.ball.x_velocity *= -1
 
-    # def _bounce_ball_y_axis(self):
-
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
-        self.left_paddle.draw_paddle()
-        self.right_paddle.draw_paddle()
-        self.ball.draw_ball()
+        self.left_paddle.draw()
+        self.right_paddle.draw()
+        self.ball.draw()
         pygame.display.flip()
 
 if __name__ == '__main__':

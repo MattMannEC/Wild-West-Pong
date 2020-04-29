@@ -15,5 +15,5 @@ class Settings:
         # Balls settings
         self.ball_width = 10
         self.ball_height = 10
-        self.ball_speed = 2
+        self.ball_speed = 1
         self.ball_color = (0, 0, 0)

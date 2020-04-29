@@ -35,5 +35,5 @@ class Paddle(Sprite):
 
         self.rect.y = self.y
 
-    def draw_paddle(self):
+    def draw(self):
         pygame.draw.rect(self.screen, self.settings.paddle_color, self.rect)
