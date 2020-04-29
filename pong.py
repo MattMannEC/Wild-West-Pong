@@ -65,7 +65,7 @@ class Pong:
             self.left_paddle.moving_up = False
         elif event.key == pygame.K_s:
             self.left_paddle.moving_down = False
-        # left_paddle keyup events
+        # right_paddle keyup events
         elif event.key == pygame.K_i:
             self.right_paddle.moving_up = False
         elif event.key == pygame.K_k:
