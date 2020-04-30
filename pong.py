@@ -24,19 +24,7 @@ class Pong:
         self.stats = GameStats(self)
 
         self.play_button = Button(self, "Play")
-
-        self.left_paddle = Paddle(self, 'left')
-        self.right_paddle = Paddle(self, 'right')
-
-        self.ball = Ball(self)
-
         self.screen_rect = self.screen.get_rect()
-
-        # Store all game sprites in a managable group.
-        self.sprites = pygame.sprite.Group()
-        self.sprites.add(self.left_paddle)
-        self.sprites.add(self.right_paddle)
-        self.sprites.add(self.ball)
 
     def run_game(self):
         while True:
@@ -49,6 +37,18 @@ class Pong:
                 self.ball.update()
             self._update_screen()
 
+    def _create_game_elements(self):
+        self.left_paddle = Paddle(self, 'left')
+        self.right_paddle = Paddle(self, 'right')
+
+        self.ball = Ball(self)
+
+        # Store all game sprites in a managable group.
+        self.sprites = pygame.sprite.Group()
+        self.sprites.add(self.left_paddle)
+        self.sprites.add(self.right_paddle)
+        self.sprites.add(self.ball)
+        
     def _check_events(self):
         """"Listen for when user presses buttons"""
         for event in pygame.event.get():
@@ -66,9 +66,8 @@ class Pong:
         """Start a new game when the player clicks Play."""
         if self.play_button.rect.collidepoint(mouse_pos):
             self.stats.reset_stats()
-
-            print("game active true")
             self.stats.game_active = True
+            self._create_game_elements()
 
 
     def _check_keydown_events(self, event):
@@ -115,10 +114,6 @@ class Pong:
     def _goal(self):
         """Respond to the ball getting past a paddle"""
         self.sprites.empty()
-        print(self.ball.rect.x)
-        print("goal")
-        print(len(self.sprites))
-        print("game active false")
         self.stats.game_active = False
         # self._reset_game()
         # sleep(2)
@@ -126,12 +121,12 @@ class Pong:
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
-        self.left_paddle.draw()
-        self.right_paddle.draw()
-        self.ball.draw()
-
+        if self.stats.game_active:
+            self.left_paddle.draw()
+            self.right_paddle.draw()
+            self.ball.draw()
         # Draw play button if game is inactive
-        if not self.stats.game_active:
+        elif not self.stats.game_active:
             self.play_button.draw_button()
         pygame.display.flip()
 
