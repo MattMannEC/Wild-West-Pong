@@ -117,6 +117,7 @@ class Pong:
         """Respond to the ball getting past a paddle"""
         self.sprites.empty()
         self.stats.game_active = False
+        pygame.mouse.set_visible(True)
         # self._reset_game()
         # sleep(2)
         # if statement for scores under 10. if score over ten game active false
