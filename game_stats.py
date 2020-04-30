@@ -6,6 +6,8 @@ class GameStats:
         self.reset_stats()
 
         # Start game in inactive state
+
+        print("game active false")
         self.game_active = False
 
 
