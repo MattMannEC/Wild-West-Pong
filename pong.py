@@ -3,6 +3,7 @@ from time import sleep
 import pygame
 from settings import Settings
 from game_stats import GameStats
+from button import Button
 from paddle import Paddle
 from ball import Ball
 
@@ -22,6 +23,8 @@ class Pong:
 
         self.stats = GameStats(self)
 
+        self.play_button = Button(self, "Play")
+
         self.left_paddle = Paddle(self, 'left')
         self.right_paddle = Paddle(self, 'right')
 
@@ -34,7 +37,6 @@ class Pong:
         self.sprites.add(self.left_paddle)
         self.sprites.add(self.right_paddle)
         self.sprites.add(self.ball)
-        print(len(self.sprites))
 
     def run_game(self):
         while True:
@@ -52,10 +54,22 @@ class Pong:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
+
+    def _check_play_button(self, mouse_pos):
+        """Start a new game when the player clicks Play."""
+        if self.play_button.rect.collidepoint(mouse_pos):
+            self.stats.reset_stats()
+
+            print("game active true")
+            self.stats.game_active = True
+
 
     def _check_keydown_events(self, event):
         # left_paddle keydown events
@@ -103,6 +117,8 @@ class Pong:
         self.sprites.empty()
         print(self.ball.rect.x)
         print("goal")
+        print(len(self.sprites))
+        print("game active false")
         self.stats.game_active = False
         # self._reset_game()
         # sleep(2)
@@ -113,6 +129,10 @@ class Pong:
         self.left_paddle.draw()
         self.right_paddle.draw()
         self.ball.draw()
+
+        # Draw play button if game is inactive
+        if not self.stats.game_active:
+            self.play_button.draw_button()
         pygame.display.flip()
 
 if __name__ == '__main__':
