@@ -1,6 +1,8 @@
 import sys
+from time import sleep
 import pygame
 from settings import Settings
+from game_stats import GameStats
 from paddle import Paddle
 from ball import Ball
 
@@ -18,6 +20,8 @@ class Pong:
     
         pygame.display.set_caption("Pong")
 
+        self.stats = GameStats(self)
+
         self.left_paddle = Paddle(self, 'left')
         self.right_paddle = Paddle(self, 'right')
 
@@ -25,19 +29,22 @@ class Pong:
 
         self.screen_rect = self.screen.get_rect()
 
-        sprites = pygame.sprite.Group()
-        sprites.add(self.left_paddle)
-        sprites.add(self.right_paddle)
-        sprites.add(self.ball)
+        # Store all game sprites in a managable group.
+        self.sprites = pygame.sprite.Group()
+        self.sprites.add(self.left_paddle)
+        self.sprites.add(self.right_paddle)
+        self.sprites.add(self.ball)
+        print(len(self.sprites))
 
     def run_game(self):
         while True:
             self._check_events()
-            self._check_ball_bounce()
-            self._check_paddle_ball_collision()
-            self.left_paddle.update()
-            self.right_paddle.update()
-            self.ball.update()
+            if self.stats.game_active:
+                self._check_ball_location()
+                self._check_paddle_ball_collision()
+                self.left_paddle.update()
+                self.right_paddle.update()
+                self.ball.update()
             self._update_screen()
 
     def _check_events(self):
@@ -77,16 +84,29 @@ class Pong:
         elif event.key == pygame.K_k:
             self.right_paddle.moving_down = False
 
-    def _check_ball_bounce(self):
+    def _check_ball_location(self):
         # Bounces on the top or bottom of the surface
+        # Scores a goal on the left or right end of the surface
         if self.ball.rect.y >= self.screen_rect.bottom:
             self.ball.y_velocity *= -1
         if self.ball.rect.y <= self.screen_rect.top:
             self.ball.y_velocity *= -1
+        if self.ball.rect.x < self.screen_rect.left or self.ball.rect.x >= self.screen_rect.right:
+            self._goal()
 
     def _check_paddle_ball_collision(self):
         if pygame.sprite.collide_rect(self.ball, self.left_paddle) or pygame.sprite.collide_rect(self.ball, self.right_paddle):
             self.ball.x_velocity *= -1
+
+    def _goal(self):
+        """Respond to the ball getting past a paddle"""
+        self.sprites.empty()
+        print(self.ball.rect.x)
+        print("goal")
+        self.stats.game_active = False
+        # self._reset_game()
+        # sleep(2)
+        # if statement for scores under 10. if score over ten game active false
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
