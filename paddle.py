@@ -33,6 +33,7 @@ class Paddle(Sprite):
         if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
             self.y += self.settings.paddle_speed
 
+        # Update modified y axis value to actual y axis position
         self.rect.y = self.y
 
     def draw(self):
