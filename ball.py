@@ -17,6 +17,12 @@ class Ball(Sprite):
         self.y_velocity = self.settings.ball_speed 
         self.x_velocity = self.settings.ball_speed
 
+        ### When a ball is created, calculate random x and y values for velocity and add to velocity list in settings.
+        ### this will make the serve dynamic and random. 
+        ### Need to adjust range so serves are reasonable
+
+        ### Delete all the stupid ifs below.
+
         # Set random service direction
         self.rand_x = randint(0, 1)
         if self.rand_x == 1:
@@ -40,10 +46,15 @@ class Ball(Sprite):
 
     def update(self):
         # Update x axis position
+
+        ### replace self.x_velocity with velocity(0)
+        print(f"x = {self.x_velocity}")
         self.x += self.x_velocity
         self.rect.x = self.x
 
+        ### replace self.y_velocity with velocity(1)
         # Update y axis position
+        print(f"y = {self.y_velocity}")
         self.y += self.y_velocity
         self.rect.y = self.y
 

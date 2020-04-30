@@ -22,11 +22,14 @@ class Settings:
 
     def initialize_dynamic_settings(self):
         self.paddle_speed = 1.5
-        self.ball_speed = 1
+        #### Create velocity list setting
+        self.ball_speed = 3
 
     def increase_speed(self):
         """Speed the game up gradually during each point.
         The longer a point goes on the faster it gets.
         """
-        # self.paddle_speed *= self.speedup_scale
+        self.paddle_speed *= self.speedup_scale
+
+        ### write loop for value in velocity to be multiplied by speedup scale
         self.ball_speed *= self.speedup_scale

@@ -133,6 +133,7 @@ class Pong:
             self.left_paddle.draw()
             self.right_paddle.draw()
             self.ball.draw()
+            print(self.ball.rect)
         # Draw play button if game is inactive
         elif not self.stats.game_active:
             self.play_button.draw_button()
