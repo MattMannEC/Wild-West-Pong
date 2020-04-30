@@ -7,7 +7,6 @@ class Settings:
         self.bg_color = (230, 230, 230)
 
         # Paddle settings
-        self.paddle_speed = 1.5
         self.paddle_width = 50
         self.paddle_height = 200
         self.paddle_color = (255, 0, 144)
@@ -15,5 +14,19 @@ class Settings:
         # Balls settings
         self.ball_width = 10
         self.ball_height = 10
-        self.ball_speed = 1
         self.ball_color = (0, 0, 0)
+        
+        # How quickly the game speeds up
+        self.speedup_scale = 2
+        self.initialize_dynamic_settings()
+
+    def initialize_dynamic_settings(self):
+        self.paddle_speed = 1.5
+        self.ball_speed = 1
+
+    def increase_speed(self):
+        """Speed the game up gradually during each point.
+        The longer a point goes on the faster it gets.
+        """
+        # self.paddle_speed *= self.speedup_scale
+        self.ball_speed *= self.speedup_scale

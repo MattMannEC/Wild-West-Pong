@@ -112,6 +112,11 @@ class Pong:
     def _check_paddle_ball_collision(self):
         if pygame.sprite.collide_rect(self.ball, self.left_paddle) or pygame.sprite.collide_rect(self.ball, self.right_paddle):
             self.ball.x_velocity *= -1
+            self.stats.rally_length += 1
+            if self.stats.rally_length > 0:
+                if self.stats.rally_length % 3 == 0:
+                    self.settings.increase_speed()
+            print(self.stats.rally_length)
 
     def _goal(self):
         """Respond to the ball getting past a paddle"""

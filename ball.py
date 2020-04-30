@@ -38,7 +38,6 @@ class Ball(Sprite):
             self.y_velocity *= -1.6
         
 
-
     def update(self):
         # Update x axis position
         self.x += self.x_velocity
