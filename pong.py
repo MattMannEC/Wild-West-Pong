@@ -7,7 +7,6 @@ from button import Button
 from paddle import Paddle
 from ball import Ball
 from scoreboard import Scoreboard
-from random import uniform
 from random import randint
 
 class Pong:
@@ -130,7 +129,7 @@ class Pong:
         to make game more interesting
         """
         # Adjust Y velocity to simulate bad paddle/ball contact
-        chaos_index = uniform(-0.75, 0.75)
+        chaos_index = randint(-75, 75) / 100
         self.settings.velocity[1] += chaos_index
         print(chaos_index)
 
