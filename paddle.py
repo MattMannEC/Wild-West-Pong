@@ -9,7 +9,7 @@ class Paddle(Sprite):
         self.screen = pong_game.screen
         self.screen_rect = pong_game.screen.get_rect()
         self.settings = pong_game.settings
-        self.rect = pygame.Rect(0, 0, self.settings.paddle_width, self.settings.paddle_height)
+        self.rect = pygame.Rect(10, 0, self.settings.paddle_width, self.settings.paddle_height)
         self.position = position
         self.set_start_position()
 
@@ -25,8 +25,6 @@ class Paddle(Sprite):
         if self.position == 'right':
             self.rect.midright = self.screen_rect.midright
 
-
-    
     def update(self):
         if self.moving_up and self.rect.top > 0:
             self.y -= self.settings.paddle_speed

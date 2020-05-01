@@ -38,6 +38,7 @@ class Pong:
             self._update_screen()
 
     def _create_game_elements(self):
+        self.settings.initialize_dynamic_settings()
         self.left_paddle = Paddle(self, 'left')
         self.right_paddle = Paddle(self, 'right')
 
@@ -103,27 +104,26 @@ class Pong:
         # Bounces on the top or bottom of the surface
         # Scores a goal on the left or right end of the surface
         if self.ball.rect.y >= self.screen_rect.bottom:
-            self.ball.y_velocity *= -1
+            self.settings.velocity[1] *= -1
         if self.ball.rect.y <= self.screen_rect.top:
-            self.ball.y_velocity *= -1
+            self.settings.velocity[1] *= -1
         if self.ball.rect.x < self.screen_rect.left or self.ball.rect.x >= self.screen_rect.right:
             self._goal()
 
     def _check_paddle_ball_collision(self):
         if pygame.sprite.collide_rect(self.ball, self.left_paddle) or pygame.sprite.collide_rect(self.ball, self.right_paddle):
-            self.ball.x_velocity *= -1
+            self.settings.velocity[0] *= -1
             self.stats.rally_length += 1
             if self.stats.rally_length > 0:
                 if self.stats.rally_length % 3 == 0:
                     self.settings.increase_speed()
-            print(self.stats.rally_length)
 
     def _goal(self):
         """Respond to the ball getting past a paddle"""
         self.sprites.empty()
         self.stats.game_active = False
         pygame.mouse.set_visible(True)
-        # self._reset_game()
+        self.stats.reset_stats()
         # sleep(2)
         # if statement for scores under 10. if score over ten game active false
 
@@ -133,7 +133,6 @@ class Pong:
             self.left_paddle.draw()
             self.right_paddle.draw()
             self.ball.draw()
-            print(self.ball.rect)
         # Draw play button if game is inactive
         elif not self.stats.game_active:
             self.play_button.draw_button()

@@ -1,6 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
-from random import *
+from random import randint
+from random import random
 
 class Ball(Sprite):
 
@@ -14,48 +15,21 @@ class Ball(Sprite):
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
 
-        self.y_velocity = self.settings.ball_speed 
-        self.x_velocity = self.settings.ball_speed
+        # X axis is randomly -1 or 1
+        self.serve_x = (-1) ** randint(2,3)
+        # Y axis is random float between 0.0 and 1.0 either positive or negative
+        self.serve_y = (random() * -1) ** randint(2,3)
 
-        ### When a ball is created, calculate random x and y values for velocity and add to velocity list in settings.
-        ### this will make the serve dynamic and random. 
-        ### Need to adjust range so serves are reasonable
+        self.settings.velocity = [self.serve_x, self.serve_y]
 
-        ### Delete all the stupid ifs below.
-
-        # Set random service direction
-        self.rand_x = randint(0, 1)
-        if self.rand_x == 1:
-            self.x_velocity *= -1
-            
-        # Set random service trajectory
-        self.rand_y = randint(1, 6)
-        if self.rand_y == 1:
-            self.y_velocity *= 1.2
-        elif self.rand_y == 2:
-            self.y_velocity *= 1.4
-        elif self.rand_y == 3:
-            self.y_velocity *= 1.6
-        elif self.rand_y == 4:
-            self.y_velocity *= -1.2
-        elif self.rand_y == 5:
-            self.y_velocity *= -1.4
-        elif self.rand_y == 6:
-            self.y_velocity *= -1.6
-        
 
     def update(self):
         # Update x axis position
-
-        ### replace self.x_velocity with velocity(0)
-        print(f"x = {self.x_velocity}")
-        self.x += self.x_velocity
+        self.x += self.settings.velocity[0]
         self.rect.x = self.x
 
-        ### replace self.y_velocity with velocity(1)
         # Update y axis position
-        print(f"y = {self.y_velocity}")
-        self.y += self.y_velocity
+        self.y += self.settings.velocity[1]
         self.rect.y = self.y
 
     def draw(self):
