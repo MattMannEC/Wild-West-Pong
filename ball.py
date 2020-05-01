@@ -1,7 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 from random import randint
-from random import random
+from random import uniform
 
 class Ball(Sprite):
 
@@ -18,7 +18,7 @@ class Ball(Sprite):
         # X axis is randomly -1 or 1
         self.serve_x = (-1) ** randint(2,3)
         # Y axis is random float between 0.0 and 1.0 either positive or negative
-        self.serve_y = (random() * -1) ** randint(2,3)
+        self.serve_y = (uniform(0.5, 1.0) * -1) ** randint(2,3)
 
         self.settings.velocity = [self.serve_x, self.serve_y]
 
