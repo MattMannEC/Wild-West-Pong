@@ -4,17 +4,17 @@ class Settings:
         # Screen settings
         self.screen_width = 1200
         self.screen_height = 800
-        self.bg_color = (230, 230, 230)
+        self.bg_color = (0, 0, 0)
 
         # Paddle settings
-        self.paddle_width = 10
+        self.paddle_width = 30
         self.paddle_height = 200
-        self.paddle_color = (255, 0, 144)
+        self.paddle_color = (255, 255, 255)
 
         # Balls settings
-        self.ball_width = 10
-        self.ball_height = 10
-        self.ball_color = (0, 0, 0)
+        self.ball_width = 30
+        self.ball_height = 30
+        self.ball_color = (255, 255, 255)
         
         # How quickly the game speeds up
         self.speedup_scale = 1.1

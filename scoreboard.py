@@ -10,7 +10,7 @@ class Scoreboard:
         self.settings = pong_game.settings
         self.stats = pong_game.stats
         
-        self.text_color = (30, 30, 30)
+        self.text_color = (255, 255, 255)
         self.font = pygame.font.SysFont(None, 48)
         
         # Prepare the initial score image.

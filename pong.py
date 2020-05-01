@@ -7,6 +7,8 @@ from button import Button
 from paddle import Paddle
 from ball import Ball
 from scoreboard import Scoreboard
+from random import uniform
+from random import randint
 
 class Pong:
 
@@ -117,10 +119,25 @@ class Pong:
     def _check_paddle_ball_collision(self):
         if pygame.sprite.collide_rect(self.ball, self.left_paddle) or pygame.sprite.collide_rect(self.ball, self.right_paddle):
             self.settings.velocity[0] *= -1
+            self._chaos_generator()
             self.stats.rally_length += 1
             if self.stats.rally_length > 0:
                 if self.stats.rally_length % 3 == 0:
                     self.settings.increase_speed()
+
+    def _chaos_generator(self):
+        """ Adjust velocity of ball slightly after paddle/ball collision
+        to make game more interesting
+        """
+        # Adjust Y velocity to simulate bad paddle/ball contact
+        chaos_index = uniform(-0.75, 0.75)
+        self.settings.velocity[1] += chaos_index
+        print(chaos_index)
+
+        # Adjust X velocity to perfect paddle/ball contact
+        fine_shot = randint(1, 6)
+        if fine_shot == 1:
+            self.settings.velocity[0] *= 1.1
 
     def _goal(self, paddle):
         """Respond to the ball getting past a paddle"""
