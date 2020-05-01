@@ -6,6 +6,7 @@ from game_stats import GameStats
 from button import Button
 from paddle import Paddle
 from ball import Ball
+from scoreboard import Scoreboard
 
 class Pong:
 
@@ -22,6 +23,7 @@ class Pong:
         pygame.display.set_caption("Pong")
 
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
 
         self.play_button = Button(self, "Play")
         self.screen_rect = self.screen.get_rect()
@@ -107,8 +109,11 @@ class Pong:
             self.settings.velocity[1] *= -1
         if self.ball.rect.y <= self.screen_rect.top:
             self.settings.velocity[1] *= -1
-        if self.ball.rect.x < self.screen_rect.left or self.ball.rect.x >= self.screen_rect.right:
-            self._goal()
+        if self.ball.rect.x < self.screen_rect.left:
+            self._goal(self.right_paddle)
+        if self.ball.rect.x >= self.screen_rect.right:
+            self._goal(self.left_paddle)
+
 
     def _check_paddle_ball_collision(self):
         if pygame.sprite.collide_rect(self.ball, self.left_paddle) or pygame.sprite.collide_rect(self.ball, self.right_paddle):
@@ -118,14 +123,28 @@ class Pong:
                 if self.stats.rally_length % 3 == 0:
                     self.settings.increase_speed()
 
-    def _goal(self):
+    def _goal(self, paddle):
         """Respond to the ball getting past a paddle"""
+        if self.left_paddle == paddle:
+            self.stats.score[0] += 1
+        elif self.right_paddle == paddle:
+            self.stats.score[1] += 1
+        
+        self.sb.prep_score()
+        self._check_score()
         self.sprites.empty()
-        self.stats.game_active = False
-        pygame.mouse.set_visible(True)
-        self.stats.reset_stats()
-        # sleep(2)
-        # if statement for scores under 10. if score over ten game active false
+
+    def _check_score(self):
+        if self.stats.score[0] >= 2:
+            self.stats.game_active = False
+            pygame.mouse.set_visible(True)
+        if self.stats.score[1] >= 2:
+            print("chelsea")
+        self._reset_game()
+
+    def _reset_game(self):
+        self._create_game_elements()
+
 
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
@@ -133,6 +152,7 @@ class Pong:
             self.left_paddle.draw()
             self.right_paddle.draw()
             self.ball.draw()
+            self.sb.show_score()
         # Draw play button if game is inactive
         elif not self.stats.game_active:
             self.play_button.draw_button()
