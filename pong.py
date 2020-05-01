@@ -70,10 +70,10 @@ class Pong:
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.stats.game_active:
             self.stats.reset_stats()
+            self.sb.prep_score()
             self.stats.game_active = True
             self._create_game_elements()
             pygame.mouse.set_visible(False)
-
 
     def _check_keydown_events(self, event):
         # left_paddle keydown events
@@ -114,7 +114,6 @@ class Pong:
         if self.ball.rect.x >= self.screen_rect.right:
             self._goal(self.left_paddle)
 
-
     def _check_paddle_ball_collision(self):
         if pygame.sprite.collide_rect(self.ball, self.left_paddle) or pygame.sprite.collide_rect(self.ball, self.right_paddle):
             self.settings.velocity[0] *= -1
@@ -129,17 +128,18 @@ class Pong:
             self.stats.score[0] += 1
         elif self.right_paddle == paddle:
             self.stats.score[1] += 1
-        
         self.sb.prep_score()
+        self._update_screen()
+        sleep(1)
         self._check_score()
         self.sprites.empty()
 
     def _check_score(self):
-        if self.stats.score[0] >= 2:
+        if self.stats.score[0] >= 2 or self.stats.score[1] >= 2:
+            sleep(3)
             self.stats.game_active = False
             pygame.mouse.set_visible(True)
-        if self.stats.score[1] >= 2:
-            print("chelsea")
+
         self._reset_game()
 
     def _reset_game(self):
@@ -149,10 +149,10 @@ class Pong:
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
         if self.stats.game_active:
+            self.sb.show_score()
             self.left_paddle.draw()
             self.right_paddle.draw()
             self.ball.draw()
-            self.sb.show_score()
         # Draw play button if game is inactive
         elif not self.stats.game_active:
             self.play_button.draw_button()

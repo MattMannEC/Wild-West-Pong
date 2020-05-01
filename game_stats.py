@@ -13,5 +13,5 @@ class GameStats:
 
     def reset_stats(self):
         """Initialize statistics that can change during the game."""
-        
-        print("stats reset")
+        self.score = [0, 0]
+        self.rally_length = 0

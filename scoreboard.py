@@ -21,11 +21,11 @@ class Scoreboard:
         score_str = str(self.stats.score)
         self.score_image = self.font.render(score_str, True,
                 self.text_color, self.settings.bg_color)
-        # Display the score at the top right of the screen.
+                
         self.score_rect = self.score_image.get_rect()
         self.score_rect.center = self.screen_rect.center
         self.score_rect.top = 20
 
     def show_score(self):
         """Draw score to the screen."""
-        self.screen.blit(self.score_image, self.score_rect)
+        self.screen.blit(self.score_image, self.score_rect)    
