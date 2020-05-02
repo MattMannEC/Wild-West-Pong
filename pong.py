@@ -8,6 +8,7 @@ from paddle import Paddle
 from ball import Ball
 from scoreboard import Scoreboard
 from random import randint
+from bullet import Bullet
 
 class Pong:
 
@@ -38,6 +39,7 @@ class Pong:
                 self.left_paddle.update()
                 self.right_paddle.update()
                 self.ball.update()
+                self._update_bullets()
             self._update_screen()
 
     def _create_game_elements(self):
@@ -47,6 +49,7 @@ class Pong:
 
         self.ball = Ball(self)
 
+        self.bullets = pygame.sprite.Group()
         # Store all game sprites in a managable group.
         self.sprites = pygame.sprite.Group()
         self.sprites.add(self.left_paddle)
@@ -87,6 +90,8 @@ class Pong:
             self.right_paddle.moving_up = True
         elif event.key == pygame.K_k:
             self.right_paddle.moving_down = True
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
         # System keydown events
         elif event.key == pygame.K_ESCAPE:
             sys.exit()
@@ -150,6 +155,21 @@ class Pong:
         self._check_score()
         self.sprites.empty()
 
+    def _fire_bullet(self):
+        """Create a new bullet and add it to the bullets group"""
+        if len(self.bullets) < self.settings.bullets_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
+
+    def _update_bullets(self):
+        """Update position of bullets and get rid of old bullets."""
+        self.bullets.update()
+
+        # Delete old bullets when they leave the screen
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
+
     def _check_score(self):
         if self.stats.score[0] >= 2 or self.stats.score[1] >= 2:
             sleep(3)
@@ -169,6 +189,8 @@ class Pong:
             self.left_paddle.draw()
             self.right_paddle.draw()
             self.ball.draw()
+            for bullet in self.bullets.sprites():
+                bullet.draw_bullet()
         # Draw play button if game is inactive
         elif not self.stats.game_active:
             self.play_button.draw_button()

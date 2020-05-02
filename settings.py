@@ -15,6 +15,13 @@ class Settings:
         self.ball_width = 30
         self.ball_height = 30
         self.ball_color = (255, 255, 255)
+
+        # Bullet settings
+        self.bullet_speed = 1.5
+        self.bullet_width = 20
+        self.bullet_height = 10
+        self.bullet_color = (200, 200, 200)
+        self.bullets_allowed = 10
         
         # How quickly the game speeds up
         self.speedup_scale = 1.1
