@@ -36,6 +36,7 @@ class Pong:
             if self.stats.game_active:
                 self._check_ball_location()
                 self._check_paddle_ball_collision()
+                self._check_bullet_ball_collision()
                 self.left_paddle.update()
                 self.right_paddle.update()
                 self.ball.update()
@@ -131,6 +132,23 @@ class Pong:
             if self.stats.rally_length > 0:
                 if self.stats.rally_length % 3 == 0:
                     self.settings.increase_speed()
+
+    def _check_bullet_ball_collision(self):
+        """ Bullets make the ball change y velocity. X velocity is modified so
+        that the ball is moving away from the paddle """
+        left_collided = pygame.sprite.spritecollideany(self.ball, self.left_paddle_bullets)
+        if left_collided:
+            self.settings.velocity[1] *= -2
+            if self.settings.velocity[0] < 0:
+                self.settings.velocity[0] *= -1
+            self.left_paddle_bullets.remove(left_collided)
+
+        right_collided = pygame.sprite.spritecollideany(self.ball, self.right_paddle_bullets)
+        if right_collided:
+            self.settings.velocity[1] *= -2
+            if self.settings.velocity[0] > 0:
+                self.settings.velocity[0] *= -1
+            self.right_paddle_bullets.remove(right_collided)
 
     def _chaos_generator(self):
         """ Adjust velocity of ball slightly after paddle/ball collision
