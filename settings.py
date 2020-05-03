@@ -21,7 +21,7 @@ class Settings:
         self.bullet_width = 20
         self.bullet_height = 10
         self.bullet_color = (200, 200, 200)
-        self.bullets_allowed = 10
+        self.bullets_allowed = 1
         
         # How quickly the game speeds up
         self.speedup_scale = 1.1

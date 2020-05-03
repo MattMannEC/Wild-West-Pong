@@ -49,7 +49,8 @@ class Pong:
 
         self.ball = Ball(self)
 
-        self.bullets = pygame.sprite.Group()
+        self.left_paddle_bullets = pygame.sprite.Group()
+        self.right_paddle_bullets = pygame.sprite.Group()
         # Store all game sprites in a managable group.
         self.sprites = pygame.sprite.Group()
         self.sprites.add(self.left_paddle)
@@ -85,13 +86,15 @@ class Pong:
             self.left_paddle.moving_up = True
         elif event.key == pygame.K_s:
             self.left_paddle.moving_down = True
+        elif event.key == pygame.K_x:
+            self._fire_bullet(self.left_paddle)
         # right_paddle keydown events
-        elif event.key == pygame.K_i:
+        elif event.key == pygame.K_u:
             self.right_paddle.moving_up = True
-        elif event.key == pygame.K_k:
+        elif event.key == pygame.K_j:
             self.right_paddle.moving_down = True
-        elif event.key == pygame.K_SPACE:
-            self._fire_bullet()
+        elif event.key == pygame.K_m:
+            self._fire_bullet(self.right_paddle)
         # System keydown events
         elif event.key == pygame.K_ESCAPE:
             sys.exit()
@@ -103,9 +106,9 @@ class Pong:
         elif event.key == pygame.K_s:
             self.left_paddle.moving_down = False
         # right_paddle keyup events
-        elif event.key == pygame.K_i:
+        elif event.key == pygame.K_u:
             self.right_paddle.moving_up = False
-        elif event.key == pygame.K_k:
+        elif event.key == pygame.K_j:
             self.right_paddle.moving_down = False
 
     def _check_ball_location(self):
@@ -134,13 +137,13 @@ class Pong:
         to make game more interesting
         """
         # Adjust Y velocity to simulate bad paddle/ball contact
-        chaos_index = randint(-75, 75) / 100
+        chaos_index = randint(-50, 50) / 100
         self.settings.velocity[1] += chaos_index
-        print(chaos_index)
 
         # Adjust X velocity to perfect paddle/ball contact
         fine_shot = randint(1, 6)
         if fine_shot == 1:
+            print("fine shot")
             self.settings.velocity[0] *= 1.1
 
     def _goal(self, paddle):
@@ -149,26 +152,40 @@ class Pong:
             self.stats.score[0] += 1
         elif self.right_paddle == paddle:
             self.stats.score[1] += 1
+
         self.sb.prep_score()
         self._update_screen()
         sleep(1)
         self._check_score()
         self.sprites.empty()
 
-    def _fire_bullet(self):
+    def _fire_bullet(self, paddle):
         """Create a new bullet and add it to the bullets group"""
-        if len(self.bullets) < self.settings.bullets_allowed:
-            new_bullet = Bullet(self)
-            self.bullets.add(new_bullet)
+        if self.left_paddle == paddle:
+            if len(self.left_paddle_bullets) < self.settings.bullets_allowed:
+                new_bullet = Bullet(self, self.left_paddle)
+                self.left_paddle_bullets.add(new_bullet)
+
+        if self.right_paddle == paddle:
+            if len(self.right_paddle_bullets) < self.settings.bullets_allowed:
+                new_bullet = Bullet(self, self.right_paddle)
+                self.right_paddle_bullets.add(new_bullet)
 
     def _update_bullets(self):
         """Update position of bullets and get rid of old bullets."""
-        self.bullets.update()
+        self.left_paddle_bullets.update()
+        self.right_paddle_bullets.update()
 
         # Delete old bullets when they leave the screen
-        for bullet in self.bullets.copy():
-            if bullet.rect.bottom <= 0:
-                self.bullets.remove(bullet)
+        # Loop through copy of list because not possible to change list 
+        # length during a loop
+        for bullet in self.left_paddle_bullets.copy():
+            if bullet.rect.left >= self.screen_rect.right:
+                self.left_paddle_bullets.remove(bullet)
+
+        for bullet in self.right_paddle_bullets.copy():
+            if bullet.rect.right <= self.screen_rect.left:
+                self.right_paddle_bullets.remove(bullet)
 
     def _check_score(self):
         if self.stats.score[0] >= 2 or self.stats.score[1] >= 2:
@@ -181,7 +198,6 @@ class Pong:
     def _reset_game(self):
         self._create_game_elements()
 
-
     def _update_screen(self):
         self.screen.fill(self.settings.bg_color)
         if self.stats.game_active:
@@ -189,7 +205,9 @@ class Pong:
             self.left_paddle.draw()
             self.right_paddle.draw()
             self.ball.draw()
-            for bullet in self.bullets.sprites():
+            for bullet in self.left_paddle_bullets.sprites():
+                bullet.draw_bullet()
+            for bullet in self.right_paddle_bullets.sprites():
                 bullet.draw_bullet()
         # Draw play button if game is inactive
         elif not self.stats.game_active:
