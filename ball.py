@@ -21,16 +21,25 @@ class Ball(Sprite):
 
         self.settings.velocity = [self.serve_x, self.serve_y]
 
-
     def update(self):
         # Update x axis position
         self.x += self.settings.velocity[0]
         self.rect.x = self.x
 
         # Update y axis position
-        self.y += self.settings.velocity[1]
+        self.y += self.limit_y_velocity()
         self.rect.y = self.y
 
     def draw(self):
         pygame.draw.rect(self.screen, self.settings.ball_color, self.rect)
+
+    def limit_y_velocity(self):
+        if self.settings.velocity[1] > self.settings.max_y:
+            return self.settings.max_y
+        elif self.settings.velocity[1] < self.settings.min_y:
+            return self.settings.min_y
+        else:
+            return self.settings.velocity[1]
+
+
 

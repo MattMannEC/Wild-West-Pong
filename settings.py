@@ -7,21 +7,23 @@ class Settings:
         self.bg_color = (0, 0, 0)
 
         # Paddle settings
-        self.paddle_width = 30
+        self.paddle_width = 2
         self.paddle_height = 200
         self.paddle_color = (255, 255, 255)
 
         # Balls settings
-        self.ball_width = 400
-        self.ball_height = 400
+        self.ball_width = 50
+        self.ball_height = 50
         self.ball_color = (255, 255, 255)
+        self.max_y = 8
+        self.min_y = -8
 
         # Bullet settings
-        self.bullet_speed = 2.5
+        self.bullet_speed = 2
         self.bullet_width = 25
         self.bullet_height = 5
-        self.bullet_color = (200, 200, 200)
-        self.bullets_allowed = 3
+        self.bullet_color = (255, 255, 255)
+        self.bullets_allowed = 2
         
         # How quickly the game speeds up
         self.speedup_scale = 1.1

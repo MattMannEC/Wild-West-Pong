@@ -114,11 +114,11 @@ class Pong:
 
     def _check_ball_location(self):
         # Bounces on the top or bottom of the surface
-        # Scores a goal on the left or right end of the surface
         if self.ball.rect.y >= self.screen_rect.bottom:
             self.settings.velocity[1] *= -1
         if self.ball.rect.y <= self.screen_rect.top:
             self.settings.velocity[1] *= -1
+        # Scores a goal on the left or right end of the surface
         if self.ball.rect.x < self.screen_rect.left:
             self._goal(self.right_paddle)
         if self.ball.rect.x >= self.screen_rect.right:
@@ -138,16 +138,24 @@ class Pong:
         that the ball is moving away from the paddle """
         left_collided = pygame.sprite.spritecollideany(self.ball, self.left_paddle_bullets)
         if left_collided:
-            self.settings.velocity[1] *= -2
+            self.settings.velocity[1] *= -1.5
+            self.settings.velocity[0] *= 1.1
+            # If the ball is moving towards bullet, the ball's x velocity is 
+            # inverted
             if self.settings.velocity[0] < 0:
                 self.settings.velocity[0] *= -1
+                self._chaos_generator()
             self.left_paddle_bullets.remove(left_collided)
 
         right_collided = pygame.sprite.spritecollideany(self.ball, self.right_paddle_bullets)
         if right_collided:
-            self.settings.velocity[1] *= -2
+            self.settings.velocity[1] *= -1.5
+            self.settings.velocity[0] *= 1.1
+            # If the ball is moving towards bullet, the ball's x velocity is 
+            # inverted
             if self.settings.velocity[0] > 0:
                 self.settings.velocity[0] *= -1
+                self._chaos_generator()
             self.right_paddle_bullets.remove(right_collided)
 
     def _chaos_generator(self):
@@ -161,7 +169,6 @@ class Pong:
         # Adjust X velocity to perfect paddle/ball contact
         fine_shot = randint(1, 6)
         if fine_shot == 1:
-            print("fine shot")
             self.settings.velocity[0] *= 1.1
 
     def _goal(self, paddle):
@@ -206,7 +213,7 @@ class Pong:
                 self.right_paddle_bullets.remove(bullet)
 
     def _check_score(self):
-        if self.stats.score[0] >= 2 or self.stats.score[1] >= 2:
+        if self.stats.score[0] >= 3 or self.stats.score[1] >= 3:
             sleep(3)
             self.stats.game_active = False
             pygame.mouse.set_visible(True)
