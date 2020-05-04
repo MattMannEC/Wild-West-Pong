@@ -155,10 +155,10 @@ class Pong:
 
         if ((
             # If the top of the ball hits the bottom of the paddle
-            self.ball.rect.top - paddle_rect.bottom >= -2 
+            self.ball.rect.top - paddle_rect.bottom >= -4 
             and self.ball.rect.top - paddle_rect.bottom <= 0)
             # If the bottom of the ball hits the top of the paddle
-            or self.ball.rect.bottom - paddle_rect.top <= 2 
+            or self.ball.rect.bottom - paddle_rect.top <= 4 
             and self.ball.rect.bottom - paddle_rect.top >= 0):
             return True
         
@@ -199,9 +199,9 @@ class Pong:
         """ Adjust velocity of ball slightly after paddle/ball collision
         to make game more interesting
         """
-        # # Adjust Y velocity to simulate bad paddle/ball contact
-        # chaos_index = randint(-50, 50) / 100
-        # self.settings.velocity[1] += chaos_index
+        # Adjust Y velocity to simulate bad paddle/ball contact
+        chaos_index = (randint(0, 15) / 100) + 1
+        self.settings.velocity[1] *= chaos_index
 
         # # Adjust X velocity to perfect paddle/ball contact
         # Commented out as it makes the game accelerate too quickly
