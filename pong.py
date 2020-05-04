@@ -9,6 +9,7 @@ from ball import Ball
 from scoreboard import Scoreboard
 from random import randint
 from bullet import Bullet
+from sound import Sound
 
 class Pong:
 
@@ -23,6 +24,7 @@ class Pong:
         self.settings.screen_height = self.screen.get_rect().height
     
         pygame.display.set_caption("Pong")
+        self.sound = Sound()
 
         self.stats = GameStats(self)
         self.sb = Scoreboard(self)
@@ -146,6 +148,7 @@ class Pong:
                 self.settings.velocity[0] *= -1
                 self._chaos_generator()
             self.left_paddle_bullets.remove(left_collided)
+            self.sound.ricochet()
 
         right_collided = pygame.sprite.spritecollideany(self.ball, self.right_paddle_bullets)
         if right_collided:
@@ -157,6 +160,7 @@ class Pong:
                 self.settings.velocity[0] *= -1
                 self._chaos_generator()
             self.right_paddle_bullets.remove(right_collided)
+            self.sound.ricochet()
 
     def _chaos_generator(self):
         """ Adjust velocity of ball slightly after paddle/ball collision
@@ -190,11 +194,13 @@ class Pong:
             if len(self.left_paddle_bullets) < self.settings.bullets_allowed:
                 new_bullet = Bullet(self, self.left_paddle)
                 self.left_paddle_bullets.add(new_bullet)
+                self.sound.fire()
 
         if self.right_paddle == paddle:
             if len(self.right_paddle_bullets) < self.settings.bullets_allowed:
                 new_bullet = Bullet(self, self.right_paddle)
                 self.right_paddle_bullets.add(new_bullet)
+                self.sound.fire()
 
     def _update_bullets(self):
         """Update position of bullets and get rid of old bullets."""
