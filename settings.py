@@ -7,7 +7,7 @@ class Settings:
         self.bg_color = (0, 0, 0)
 
         # Paddle settings
-        self.paddle_width = 2
+        self.paddle_width = 200
         self.paddle_height = 200
         self.paddle_color = (255, 255, 255)
 

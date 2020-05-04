@@ -117,9 +117,9 @@ class Pong:
     def _check_ball_location(self):
         # Bounces on the top or bottom of the surface
         if self.ball.rect.y >= self.screen_rect.bottom:
-            self.settings.velocity[1] *= -1
+            self._bounce(1)
         if self.ball.rect.y <= self.screen_rect.top:
-            self.settings.velocity[1] *= -1
+            self._bounce(1)
         # Scores a goal on the left or right end of the surface
         if self.ball.rect.x < self.screen_rect.left:
             self._goal(self.right_paddle)
@@ -127,13 +127,46 @@ class Pong:
             self._goal(self.left_paddle)
 
     def _check_paddle_ball_collision(self):
-        if pygame.sprite.collide_rect(self.ball, self.left_paddle) or pygame.sprite.collide_rect(self.ball, self.right_paddle):
-            self.settings.velocity[0] *= -1
-            self._chaos_generator()
-            self.stats.rally_length += 1
-            if self.stats.rally_length > 0:
-                if self.stats.rally_length % 3 == 0:
-                    self.settings.increase_speed()
+        if pygame.sprite.collide_rect(self.ball, self.left_paddle):
+                if self._check_rim_shot(self.left_paddle):
+                    self._bounce(1)
+                else:
+                    self._normal_shot()  
+
+        if pygame.sprite.collide_rect(self.ball, self.right_paddle):
+                if self._check_rim_shot(self.right_paddle):
+                    self._bounce(1)
+                else:
+                    self._normal_shot()
+
+    def _normal_shot(self):
+        self._bounce(0)
+        self._chaos_generator()
+        self.stats.rally_length += 1
+        if self.stats.rally_length > 0:
+            if self.stats.rally_length % 3 == 0:
+                self.settings.increase_speed()
+
+    def _check_rim_shot(self, paddle):
+        if paddle == self.left_paddle:
+            paddle_rect = self.left_paddle.rect
+        elif paddle == self.right_paddle:
+            paddle_rect = self.right_paddle.rect
+
+        if ((
+            # If the top of the ball hits the bottom of the paddle
+            self.ball.rect.top - paddle_rect.bottom >= -2 
+            and self.ball.rect.top - paddle_rect.bottom <= 0)
+            # If the bottom of the ball hits the top of the paddle
+            or self.ball.rect.bottom - paddle_rect.top <= 2 
+            and self.ball.rect.bottom - paddle_rect.top >= 0):
+            return True
+        
+
+
+    def _bounce(self, axis):
+        self.settings.velocity[axis] *= -1
+
 
     def _check_bullet_ball_collision(self):
         """ Bullets make the ball change y velocity. X velocity is modified so
@@ -160,17 +193,18 @@ class Pong:
             self.sound.ricochet()
 
     def _reflect_bullet(self):
-        self.settings.velocity[0] *= -1
+        self._bounce(0)
 
     def _chaos_generator(self):
         """ Adjust velocity of ball slightly after paddle/ball collision
         to make game more interesting
         """
-        # Adjust Y velocity to simulate bad paddle/ball contact
-        chaos_index = randint(-50, 50) / 100
-        self.settings.velocity[1] += chaos_index
+        # # Adjust Y velocity to simulate bad paddle/ball contact
+        # chaos_index = randint(-50, 50) / 100
+        # self.settings.velocity[1] += chaos_index
 
         # # Adjust X velocity to perfect paddle/ball contact
+        # Commented out as it makes the game accelerate too quickly
         # fine_shot = randint(1, 6)
         # if fine_shot == 1:
         #     self.settings.velocity[0] *= 1.1
