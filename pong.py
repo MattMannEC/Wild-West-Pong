@@ -140,27 +140,27 @@ class Pong:
         that the ball is moving away from the paddle """
         left_collided = pygame.sprite.spritecollideany(self.ball, self.left_paddle_bullets)
         if left_collided:
-            self.settings.velocity[1] *= -1.5
-            self.settings.velocity[0] *= 1.1
-            # If the ball is moving towards bullet, the ball's x velocity is 
-            # inverted
-            if self.settings.velocity[0] < 0:
-                self.settings.velocity[0] *= -1
-                self._chaos_generator()
+            self._ricochet()
             self.left_paddle_bullets.remove(left_collided)
-            self.sound.ricochet()
+            if self.settings.velocity[0] < 0:
+                self._reflect_bullet()
 
         right_collided = pygame.sprite.spritecollideany(self.ball, self.right_paddle_bullets)
         if right_collided:
+            self._ricochet()
+            self.right_paddle_bullets.remove(right_collided)
+            if self.settings.velocity[0] > 0:
+                self._reflect_bullet()
+
+    def _ricochet(self):
+        # call function that treats the collision for left or right paddle
             self.settings.velocity[1] *= -1.5
             self.settings.velocity[0] *= 1.1
-            # If the ball is moving towards bullet, the ball's x velocity is 
-            # inverted
-            if self.settings.velocity[0] > 0:
-                self.settings.velocity[0] *= -1
-                self._chaos_generator()
-            self.right_paddle_bullets.remove(right_collided)
+            self._chaos_generator()
             self.sound.ricochet()
+
+    def _reflect_bullet(self):
+        self.settings.velocity[0] *= -1
 
     def _chaos_generator(self):
         """ Adjust velocity of ball slightly after paddle/ball collision
