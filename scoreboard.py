@@ -35,7 +35,8 @@ class Scoreboard:
     def show_score(self):
         """Draw score to the screen."""
         self.screen.blit(self.score_image, self.score_rect)
-        if self.stats.score[0] >= 3 or self.stats.score[1] >= 3:
+        if (self.stats.score[0] >= self.settings.play_to or 
+                self.stats.score[1] >= self.settings.play_to):
             self.screen.blit(self.game_over_image, self.game_over_rect)
             
 

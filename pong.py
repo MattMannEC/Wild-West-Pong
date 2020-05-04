@@ -154,7 +154,7 @@ class Pong:
 
     def _ricochet(self):
         # call function that treats the collision for left or right paddle
-            self.settings.velocity[1] *= -1.5
+            self.settings.velocity[1] *= -2
             self.settings.velocity[0] *= 1.1
             self._chaos_generator()
             self.sound.ricochet()
@@ -170,10 +170,10 @@ class Pong:
         chaos_index = randint(-50, 50) / 100
         self.settings.velocity[1] += chaos_index
 
-        # Adjust X velocity to perfect paddle/ball contact
-        fine_shot = randint(1, 6)
-        if fine_shot == 1:
-            self.settings.velocity[0] *= 1.1
+        # # Adjust X velocity to perfect paddle/ball contact
+        # fine_shot = randint(1, 6)
+        # if fine_shot == 1:
+        #     self.settings.velocity[0] *= 1.1
 
     def _goal(self, paddle):
         """Respond to the ball getting past a paddle"""
@@ -219,7 +219,7 @@ class Pong:
                 self.right_paddle_bullets.remove(bullet)
 
     def _check_score(self):
-        if self.stats.score[0] >= 3 or self.stats.score[1] >= 3:
+        if self.stats.score[0] >= self.settings.play_to or self.stats.score[1] >= self.settings.play_to:
             sleep(3)
             self.stats.game_active = False
             pygame.mouse.set_visible(True)
