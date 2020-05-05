@@ -171,10 +171,13 @@ class Pong:
                 self._reflect_bullet()
 
     def _ricochet(self):
-        # call function that treats the collision for left or right paddle
+        if abs(self.settings.velocity[1]) > abs(self.settings.velocity[0]):
+            self.settings.velocity[0] = self.settings.velocity[0] / (self.settings.velocity[0] / self.settings.velocity[1])
+            self.settings.velocity[1] = (self.settings.velocity[1] * (self.settings.velocity[0] / self.settings.velocity[1])) * ((-1) ** randint(2,3))
+        else:
             self.settings.velocity[1] *= -1
-            self._chaos_generator()
-            self.sound.ricochet()
+        self._chaos_generator()
+        self.sound.ricochet()
 
     def _reflect_bullet(self):
         self._bounce(0)
@@ -184,7 +187,7 @@ class Pong:
         to make game more interesting
         """
         # Adjust Y velocity to simulate bad paddle/ball contact
-        chaos_index = (randint(0, 15) / 100) + 1
+        chaos_index = (randint(0, 25) / 100) + 1
         self.settings.velocity[1] *= chaos_index
 
         # # Adjust X velocity to perfect paddle/ball contact
