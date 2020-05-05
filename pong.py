@@ -116,9 +116,9 @@ class Pong:
 
     def _check_ball_location(self):
         # Bounces on the top or bottom of the surface
-        if self.ball.rect.y >= self.screen_rect.bottom:
+        if self.ball.rect.bottom >= self.screen_rect.bottom:
             self._bounce(1)
-        if self.ball.rect.y <= self.screen_rect.top:
+        if self.ball.rect.top <= self.screen_rect.top:
             self._bounce(1)
         # Scores a goal on the left or right end of the surface
         if self.ball.rect.x < self.screen_rect.left:

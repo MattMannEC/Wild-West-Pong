@@ -8,7 +8,7 @@ class Settings:
 
         # Paddle settings
         self.paddle_width = 10
-        self.paddle_height = 400
+        self.paddle_height = 300
         self.paddle_color = (255, 255, 255)
 
         # Balls settings
