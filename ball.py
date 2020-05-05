@@ -16,8 +16,8 @@ class Ball(Sprite):
 
         # X axis is randomly -1 or 1
         self.serve_x = (-1) ** randint(2,3)
-        # Y axis is random float between 0.0 and 1.0 either positive or negative
-        self.serve_y = ((randint(5, 10)/10) * -1) ** randint(2,3)
+        # Y axis is random float between 0.5 and 1.5 either positive or negative
+        self.serve_y = (randint(5, 15)/10) * ((-1) ** randint(2,3))
 
         self.settings.velocity = [self.serve_x, self.serve_y]
 

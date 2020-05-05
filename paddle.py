@@ -13,8 +13,9 @@ class Paddle(Sprite):
         self.position = position
         self.set_start_position()
 
-        # Store a decimal value for the paddle's vertical position.
+        # Store a decimal value for the paddle's position.
         self.y = float(self.rect.y)
+        self.x = float(self.rect.x)
 
         self.moving_up = False
         self.moving_down = False

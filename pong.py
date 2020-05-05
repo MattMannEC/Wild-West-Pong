@@ -129,10 +129,10 @@ class Pong:
     def _check_paddle_ball_collision(self):
         if (pygame.sprite.collide_rect(self.ball, self.left_paddle) or 
             pygame.sprite.collide_rect(self.ball, self.right_paddle)):
-                if self._check_rim_shot():
-                    self._bounce(1)
-                else:
-                    self._normal_shot()  
+            if self._check_rim_shot():
+                self._bounce(1)
+            else:
+                self._normal_shot()  
 
     def _normal_shot(self):
         self._bounce(0)
@@ -143,10 +143,10 @@ class Pong:
                 self.settings.increase_speed()
 
     def _check_rim_shot(self):
-        if (self.ball.rect.x < self.left_paddle.rect.x or
-            self.ball.rect.x > self.right_paddle.rect.x):
-            print(f"ball{self.ball.rect}")
-            print(f"left paddle{self.left_paddle.rect}")
+        # When the ball hits the y face of the paddle the x 
+        # axis value difference will be 1.
+        if (self.ball.rect.left - self.left_paddle.rect.right != -1 and
+            self.ball.rect.right - self.right_paddle.rect.left != 1):
             return True
 
     def _bounce(self, axis):
@@ -172,8 +172,7 @@ class Pong:
 
     def _ricochet(self):
         # call function that treats the collision for left or right paddle
-            self.settings.velocity[1] *= -2
-            self.settings.velocity[0] *= 1.1
+            self.settings.velocity[1] *= -1
             self._chaos_generator()
             self.sound.ricochet()
 
