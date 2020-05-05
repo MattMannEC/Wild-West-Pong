@@ -127,17 +127,12 @@ class Pong:
             self._goal(self.left_paddle)
 
     def _check_paddle_ball_collision(self):
-        if pygame.sprite.collide_rect(self.ball, self.left_paddle):
-                if self._check_rim_shot(self.left_paddle):
+        if (pygame.sprite.collide_rect(self.ball, self.left_paddle) or 
+            pygame.sprite.collide_rect(self.ball, self.right_paddle)):
+                if self._check_rim_shot():
                     self._bounce(1)
                 else:
                     self._normal_shot()  
-
-        if pygame.sprite.collide_rect(self.ball, self.right_paddle):
-                if self._check_rim_shot(self.right_paddle):
-                    self._bounce(1)
-                else:
-                    self._normal_shot()
 
     def _normal_shot(self):
         self._bounce(0)
@@ -147,22 +142,12 @@ class Pong:
             if self.stats.rally_length % 3 == 0:
                 self.settings.increase_speed()
 
-    def _check_rim_shot(self, paddle):
-        if paddle == self.left_paddle:
-            paddle_rect = self.left_paddle.rect
-        elif paddle == self.right_paddle:
-            paddle_rect = self.right_paddle.rect
-
-        if ((
-            # If the top of the ball hits the bottom of the paddle
-            self.ball.rect.top - paddle_rect.bottom >= -4 
-            and self.ball.rect.top - paddle_rect.bottom <= 0)
-            # If the bottom of the ball hits the top of the paddle
-            or self.ball.rect.bottom - paddle_rect.top <= 4 
-            and self.ball.rect.bottom - paddle_rect.top >= 0):
+    def _check_rim_shot(self):
+        if (self.ball.rect.x < self.left_paddle.rect.x or
+            self.ball.rect.x > self.right_paddle.rect.x):
+            print(f"ball{self.ball.rect}")
+            print(f"left paddle{self.left_paddle.rect}")
             return True
-        
-
 
     def _bounce(self, axis):
         self.settings.velocity[axis] *= -1
