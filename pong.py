@@ -15,22 +15,17 @@ class Pong:
 
     def __init__(self):
         pygame.init()
-        self.settings = Settings()
-
-        # Set main surface to fullscreen mode size
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        # Save the width and height of the main surface to the settings class.
+        self.screen_rect = self.screen.get_rect()
+        self.settings = Settings()
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
     
         pygame.display.set_caption("Pong")
         self.sound = Sound()
-
         self.stats = GameStats(self)
         self.sb = Scoreboard(self)
-
         self.play_button = Button(self, "Play")
-        self.screen_rect = self.screen.get_rect()
 
     def run_game(self):
         while True:
@@ -49,11 +44,11 @@ class Pong:
         self.settings.initialize_dynamic_settings()
         self.left_paddle = Paddle(self, 'left')
         self.right_paddle = Paddle(self, 'right')
-
         self.ball = Ball(self)
 
         self.left_paddle_bullets = pygame.sprite.Group()
         self.right_paddle_bullets = pygame.sprite.Group()
+
         # Store all game sprites in a managable group.
         self.sprites = pygame.sprite.Group()
         self.sprites.add(self.left_paddle)
@@ -131,7 +126,7 @@ class Pong:
             pygame.sprite.collide_rect(self.ball, self.right_paddle)):
             if self._check_rim_shot():
                 self._bounce(1)
-            else:
+            elif not self._check_rim_shot():
                 self._normal_shot()  
 
     def _normal_shot(self):
@@ -143,10 +138,8 @@ class Pong:
                 self.settings.increase_speed()
 
     def _check_rim_shot(self):
-        # When the ball hits the y face of the paddle the x 
-        # axis value difference will be 1.
-        if (self.ball.rect.left - self.left_paddle.rect.right != -1 and
-            self.ball.rect.right - self.right_paddle.rect.left != 1):
+        if (self.ball.rect.left < (self.left_paddle.rect.right - 5) or 
+            self.ball.rect.right > (self.right_paddle.rect.left + 5)):
             return True
 
     def _bounce(self, axis):
@@ -186,15 +179,10 @@ class Pong:
         """ Adjust velocity of ball slightly after paddle/ball collision
         to make game more interesting
         """
-        # Adjust Y velocity to simulate bad paddle/ball contact
-        chaos_index = (randint(0, 25) / 100) + 1
+        chaos_index = (randint(-18, 25) / 100) + 1
+        # Chaos index will be more likely to make y velocity more accute,
+        # otherwise points can go on too long.
         self.settings.velocity[1] *= chaos_index
-
-        # # Adjust X velocity to perfect paddle/ball contact
-        # Commented out as it makes the game accelerate too quickly
-        # fine_shot = randint(1, 6)
-        # if fine_shot == 1:
-        #     self.settings.velocity[0] *= 1.1
 
     def _goal(self, paddle):
         """Respond to the ball getting past a paddle"""
