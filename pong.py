@@ -178,7 +178,7 @@ class Pong:
         """ Adjust velocity of ball slightly after paddle/ball collision
         to make game more interesting
         """
-        chaos_index = (randint(-18, 25) / 100) + 1
+        chaos_index = (randint(-10, 25) / 100) + 1
         # Chaos index will be more likely to make y velocity more accute,
         # otherwise points can go on too long.
         self.settings.velocity[1] *= chaos_index
