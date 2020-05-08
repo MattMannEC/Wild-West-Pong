@@ -138,8 +138,8 @@ class Pong:
                 self.settings.increase_speed()
 
     def _check_rim_shot(self):
-        if (self.ball.rect.left < (self.left_paddle.rect.right - 6) or 
-            self.ball.rect.right > (self.right_paddle.rect.left + 6)):
+        if (self.ball.rect.left < (self.left_paddle.rect.right - 1) or 
+            self.ball.rect.right > (self.right_paddle.rect.left + 1)):
             return True
 
     def _bounce(self, axis):
