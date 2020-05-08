@@ -138,13 +138,12 @@ class Pong:
                 self.settings.increase_speed()
 
     def _check_rim_shot(self):
-        if (self.ball.rect.left < (self.left_paddle.rect.right - 5) or 
-            self.ball.rect.right > (self.right_paddle.rect.left + 5)):
+        if (self.ball.rect.left < (self.left_paddle.rect.right - 6) or 
+            self.ball.rect.right > (self.right_paddle.rect.left + 6)):
             return True
 
     def _bounce(self, axis):
         self.settings.velocity[axis] *= -1
-
 
     def _check_bullet_ball_collision(self):
         """ Bullets make the ball change y velocity. X velocity is modified so
