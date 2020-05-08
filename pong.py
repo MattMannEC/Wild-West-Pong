@@ -126,7 +126,7 @@ class Pong:
             pygame.sprite.collide_rect(self.ball, self.right_paddle)):
             if self._check_rim_shot():
                 self._bounce(1)
-            elif not self._check_rim_shot():
+            else:
                 self._normal_shot()  
 
     def _normal_shot(self):
@@ -138,8 +138,8 @@ class Pong:
                 self.settings.increase_speed()
 
     def _check_rim_shot(self):
-        if (self.ball.rect.left < (self.left_paddle.rect.right - 1) or 
-            self.ball.rect.right > (self.right_paddle.rect.left + 1)):
+        if (self.ball.rect.left < (self.left_paddle.rect.right - 10) or 
+            self.ball.rect.right > (self.right_paddle.rect.left + 10)):
             return True
 
     def _bounce(self, axis):
