@@ -6,6 +6,16 @@ class Settings:
         self.screen_height = 0
         self.bg_color = (0, 0, 0)
 
+        # Player 1 controls
+        self.p1_up = "w"
+        self.p1_down = "s"
+        self.p1_fire = "x"
+
+        # Player 2 controls
+        self.p2_up = "y"
+        self.p2_down = "h"
+        self.p2_fire = "n"
+
         # Paddle settings
         self.paddle_width = 20
         self.paddle_height = 300

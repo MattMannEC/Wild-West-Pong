@@ -80,11 +80,11 @@ class Pong:
 
     def _check_keydown_events(self, event):
         # left_paddle keydown events
-        if event.key == pygame.K_z:
+        if event.key == pygame.K_e:
             self.left_paddle.moving_up = True
-        elif event.key == pygame.K_s:
+        elif event.key == pygame.K_d:
             self.left_paddle.moving_down = True
-        elif event.key == pygame.K_x:
+        elif event.key == pygame.K_c:
             self._fire_bullet(self.left_paddle)
         # right_paddle keydown events
         elif event.key == pygame.K_y:
@@ -99,9 +99,9 @@ class Pong:
 
     def _check_keyup_events(self, event):
         # left_paddle keyup events
-        if event.key == pygame.K_z:
+        if event.key == pygame.K_e:
             self.left_paddle.moving_up = False
-        elif event.key == pygame.K_s:
+        elif event.key == pygame.K_d:
             self.left_paddle.moving_down = False
         # right_paddle keyup events
         elif event.key == pygame.K_y:
