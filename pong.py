@@ -80,18 +80,18 @@ class Pong:
 
     def _check_keydown_events(self, event):
         # left_paddle keydown events
-        if event.key == pygame.K_w:
+        if event.key == pygame.K_z:
             self.left_paddle.moving_up = True
         elif event.key == pygame.K_s:
             self.left_paddle.moving_down = True
         elif event.key == pygame.K_x:
             self._fire_bullet(self.left_paddle)
         # right_paddle keydown events
-        elif event.key == pygame.K_u:
+        elif event.key == pygame.K_y:
             self.right_paddle.moving_up = True
-        elif event.key == pygame.K_j:
+        elif event.key == pygame.K_h:
             self.right_paddle.moving_down = True
-        elif event.key == pygame.K_m:
+        elif event.key == pygame.K_n:
             self._fire_bullet(self.right_paddle)
         # System keydown events
         elif event.key == pygame.K_ESCAPE:
@@ -99,14 +99,14 @@ class Pong:
 
     def _check_keyup_events(self, event):
         # left_paddle keyup events
-        if event.key == pygame.K_w:
+        if event.key == pygame.K_z:
             self.left_paddle.moving_up = False
         elif event.key == pygame.K_s:
             self.left_paddle.moving_down = False
         # right_paddle keyup events
-        elif event.key == pygame.K_u:
+        elif event.key == pygame.K_y:
             self.right_paddle.moving_up = False
-        elif event.key == pygame.K_j:
+        elif event.key == pygame.K_h:
             self.right_paddle.moving_down = False
 
     def _check_ball_location(self):
@@ -138,8 +138,8 @@ class Pong:
                 self.settings.increase_speed()
 
     def _check_rim_shot(self):
-        if (self.ball.rect.left < (self.left_paddle.rect.right - 10) or 
-            self.ball.rect.right > (self.right_paddle.rect.left + 10)):
+        if (self.ball.rect.left < (self.left_paddle.rect.right - 20) or 
+            self.ball.rect.right > (self.right_paddle.rect.left + 20)):
             return True
 
     def _bounce(self, axis):

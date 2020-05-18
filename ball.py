@@ -14,10 +14,10 @@ class Ball(Sprite):
         self.x = float(self.rect.x)
         self.y = float(self.rect.y)
 
-        # X axis is randomly -1 or 1
-        self.serve_x = (-1) ** randint(2,3)
+        # X axis is randomly -4 or 4
+        self.serve_x = 4 * ((-1) ** randint(2,3))
         # Y axis is random float between 0.5 and 1.5 either positive or negative
-        self.serve_y = (randint(5, 15)/10) * ((-1) ** randint(2,3))
+        self.serve_y = (randint(20, 60)/10) * ((-1) ** randint(2,3))
 
         self.settings.velocity = [self.serve_x, self.serve_y]
 
@@ -35,8 +35,10 @@ class Ball(Sprite):
 
     def limit_y_velocity(self):
         if self.settings.velocity[1] > self.settings.max_y:
+            print("max")
             return self.settings.max_y
         elif self.settings.velocity[1] < self.settings.min_y:
+            print("min")
             return self.settings.min_y
         else:
             return self.settings.velocity[1]
