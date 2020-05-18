@@ -8,5 +8,7 @@ Once python3 is installed run >> "python3 -m pip install pygame==2.0.0.dev6"
 
 Navigate to pong folder and run "python3 pony.py"
 
+Game developped on unix for retina 2560 x 1600 screen. Other screen sizes may give unexpected results.
+
 
 
