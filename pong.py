@@ -17,10 +17,8 @@ class Pong:
         pygame.init()
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.screen_rect = self.screen.get_rect()
+        self.relative_unit = self.screen_rect.width / 2000
         self.settings = Settings()
-        self.settings.screen_width = self.screen.get_rect().width
-        self.settings.screen_height = self.screen.get_rect().height
-    
         pygame.display.set_caption("Pong")
         self.sound = Sound()
         self.stats = GameStats(self)
@@ -34,9 +32,9 @@ class Pong:
                 self._check_ball_location()
                 self._check_paddle_ball_collision()
                 self._check_bullet_ball_collision()
-                self.left_paddle.update()
-                self.right_paddle.update()
-                self.ball.update()
+                self.left_paddle.update(self)
+                self.right_paddle.update(self)
+                self.ball.update(self)
                 self._update_bullets()
             self._update_screen()
 
@@ -164,6 +162,7 @@ class Pong:
 
     def _ricochet(self):
         if abs(self.settings.velocity[1]) > abs(self.settings.velocity[0]):
+            # need to check ricochet physics !! 
             self.settings.velocity[0] = self.settings.velocity[0] / (self.settings.velocity[0] / self.settings.velocity[1])
             self.settings.velocity[1] = (self.settings.velocity[1] * (self.settings.velocity[0] / self.settings.velocity[1])) * ((-1) ** randint(2,3))
         else:
@@ -212,8 +211,8 @@ class Pong:
 
     def _update_bullets(self):
         """Update position of bullets and get rid of old bullets."""
-        self.left_paddle_bullets.update()
-        self.right_paddle_bullets.update()
+        self.left_paddle_bullets.update(self)
+        self.right_paddle_bullets.update(self)
 
         # Delete old bullets when they leave the screen
         # Loop through copy of list because not possible to change list 
