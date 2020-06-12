@@ -18,10 +18,10 @@ class Ball(Sprite):
         self.y = float(self.rect.y)
 
         # X axis is randomly + or - a relative_unit
-        self.serve_x = pong_game.relative_unit * ((-1.5) ** randint(2,3))
+        self.serve_x = pong_game.relative_unit * ((-1) ** randint(2,3))
         # Y axis is random number between 1 and 2 either positive or 
         # negative multiplied by one relative_unit
-        self.serve_y = ((pong_game.relative_unit * randint(10, 20)/10) * 
+        self.serve_y = ((pong_game.relative_unit * randint(10, 12)/10) * 
             (-1) ** randint(2,3))
 
         self.settings.velocity = [self.serve_x, self.serve_y]

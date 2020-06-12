@@ -6,19 +6,19 @@ class Settings:
 
         # Paddle settings
         self.paddle_width = 30
-        self.paddle_height = 500
+        self.paddle_height = 300
         self.paddle_color = (255, 255, 255)
 
         # Balls settings
-        self.ball_width = 75
-        self.ball_height = 75
+        self.ball_width = 40
+        self.ball_height = 40
         self.ball_color = (255, 255, 255)
         self.max_y = 40
         self.min_y = -40
 
         # Bullet settings
-        self.bullet_width = 40
-        self.bullet_height = 8
+        self.bullet_width = 30
+        self.bullet_height = 4
         self.bullet_color = (255, 255, 255)
         self.bullets_allowed = 2
 
@@ -30,9 +30,9 @@ class Settings:
         self.initialize_dynamic_settings()
 
     def initialize_dynamic_settings(self):
-        self.paddle_speed = 4
+        self.paddle_speed = 2
         self.velocity = []
-        self.bullet_speed = 5.5
+        self.bullet_speed = 3
 
     def increase_speed(self):
         """Speed the game up gradually during each point.
