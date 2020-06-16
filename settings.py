@@ -26,13 +26,13 @@ class Settings:
         self.play_to = 3
         
         # How quickly the game speeds up
-        self.speedup_scale = 1.01
+        self.speedup_scale = 1.03
         self.initialize_dynamic_settings()
 
     def initialize_dynamic_settings(self):
-        self.paddle_speed = 2
+        self.paddle_speed = 3
         self.velocity = []
-        self.bullet_speed = 3
+        self.bullet_speed = 5
 
     def increase_speed(self):
         """Speed the game up gradually during each point.

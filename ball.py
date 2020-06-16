@@ -18,7 +18,7 @@ class Ball(Sprite):
         self.y = float(self.rect.y)
 
         # X axis is randomly + or - a relative_unit
-        self.serve_x = pong_game.relative_unit * ((-1) ** randint(2,3))
+        self.serve_x = (pong_game.relative_unit * 4) * ((-1) ** randint(2,3))
         # Y axis is random number between 1 and 2 either positive or 
         # negative multiplied by one relative_unit
         self.serve_y = ((pong_game.relative_unit * randint(10, 12)/10) * 
@@ -28,7 +28,7 @@ class Ball(Sprite):
 
     def update(self, pong_game):
         # Update x axis position
-        self.x += (self.settings.velocity[0] * pong_game.relative_unit)
+        self.x += self.settings.velocity[0]
         self.rect.x = self.x
 
         # Update y axis position

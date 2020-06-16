@@ -17,7 +17,7 @@ class Pong:
         pygame.init()
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.screen_rect = self.screen.get_rect()
-        self.relative_unit = self.screen_rect.width / 1280
+        self.relative_unit = self.screen_rect.width / 1000
         print(self.relative_unit)
         self.settings = Settings()
         pygame.display.set_caption("Pong")
