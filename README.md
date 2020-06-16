@@ -10,5 +10,21 @@ Navigate to pong folder and run "python3 pong.py"
 
 Game developped on unix for retina 2560 x 1600 screen. Other screen sizes may give unexpected results.
 
+Controls
+
+  Player 1 
+
+    Up = e
+    Down = d
+    Fire = c
+
+  Player 2
+
+    Up = y
+    Down = h
+    Fire = n
+
+
+
 
 
