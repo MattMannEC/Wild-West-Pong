@@ -5,8 +5,8 @@ class Settings:
         self.bg_color = (0, 0, 0)
 
         # Paddle settings
-        self.paddle_width = 30
-        self.paddle_height = 300
+        self.paddle_width = 10
+        self.paddle_height = 200
         self.paddle_color = (255, 255, 255)
 
         # Balls settings
@@ -26,7 +26,7 @@ class Settings:
         self.play_to = 3
         
         # How quickly the game speeds up
-        self.speedup_scale = 1.03
+        self.speedup_scale = 1.1
         self.initialize_dynamic_settings()
 
     def initialize_dynamic_settings(self):
