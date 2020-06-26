@@ -10,6 +10,9 @@ Navigate to pong folder and run "python3 pong.py"
 
 Game developped on unix for retina 2560 x 1600 screen. Other screen sizes may give unexpected results.
 
+For help installing pygame on a different system, follow this link :
+https://www.pygame.org/wiki/GettingStarted
+
 Controls
 
   Player 1 
